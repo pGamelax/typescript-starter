@@ -86,6 +86,9 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -130,6 +133,23 @@ exports.Prisma.SortOrder = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  email: 'email',
+  username: 'username',
+  phone: 'phone',
+  password: 'password',
+  tag: 'tag'
+};
+
+exports.Prisma.TicketsOrderByRelevanceFieldEnum = {
+  uuid: 'uuid',
+  season: 'season'
+};
+
+exports.Prisma.PlayerPushOrderByRelevanceFieldEnum = {
+  season: 'season'
 };
 exports.ModeTickets = exports.$Enums.ModeTickets = {
   PUSH: 'PUSH',
@@ -180,7 +200,7 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
+  "activeProvider": "mysql",
   "inlineDatasources": {
     "db": {
       "url": {
@@ -189,8 +209,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum ModeTickets {\n  PUSH\n  WAR\n}\n\nmodel User {\n  id             Int              @id @default(autoincrement())\n  email          String           @unique\n  username       String\n  phone          String           @unique\n  password       String\n  tag            String           @unique\n  trophies       Int              @default(0)\n  best_position  Int?\n  earnigns       Float            @default(0)\n  Last_positions Last_positions[]\n  PlayerPush     PlayerPush[]\n}\n\nmodel Last_positions {\n  id       Int  @id @default(autoincrement())\n  user_id  Int\n  user     User @relation(fields: [user_id], references: [id])\n  position Int\n  trophies Int\n}\n\nmodel Tickets {\n  id     Int         @id @default(autoincrement())\n  uuid   String      @default(uuid())\n  value  Float\n  mode   ModeTickets\n  season String      @unique\n}\n\nmodel PlayerPush {\n  id      Int    @id @default(autoincrement())\n  season  String\n  user_id Int\n  user    User   @relation(fields: [user_id], references: [id])\n}\n",
-  "inlineSchemaHash": "938b807334232c4a835e9e337724d1748b28c480625b76748530b5fcf5948de0",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum ModeTickets {\n  PUSH\n  WAR\n}\n\nmodel User {\n  id             Int              @id @default(autoincrement())\n  email          String           @unique\n  username       String\n  phone          String           @unique\n  password       String\n  tag            String           @unique\n  trophies       Int              @default(0)\n  best_position  Int?\n  earnigns       Float            @default(0)\n  Last_positions Last_positions[]\n  PlayerPush     PlayerPush[]\n}\n\nmodel Last_positions {\n  id       Int  @id @default(autoincrement())\n  user_id  Int\n  user     User @relation(fields: [user_id], references: [id])\n  position Int\n  trophies Int\n}\n\nmodel Tickets {\n  id     Int         @id @default(autoincrement())\n  uuid   String      @default(uuid())\n  value  Float\n  mode   ModeTickets\n  season String      @unique\n}\n\nmodel PlayerPush {\n  id      Int    @id @default(autoincrement())\n  season  String\n  user_id Int\n  user    User   @relation(fields: [user_id], references: [id])\n}\n",
+  "inlineSchemaHash": "84c9da16aba59b97ab55ee814367c82a99766c95df609e7614d5b126c6bfd87a",
   "copyEngine": true
 }
 config.dirname = '/'

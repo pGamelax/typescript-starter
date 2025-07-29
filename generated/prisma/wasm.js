@@ -114,6 +114,9 @@ Prisma.NullTypes = {
  */
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -158,6 +161,23 @@ exports.Prisma.SortOrder = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  email: 'email',
+  username: 'username',
+  phone: 'phone',
+  password: 'password',
+  tag: 'tag'
+};
+
+exports.Prisma.TicketsOrderByRelevanceFieldEnum = {
+  uuid: 'uuid',
+  season: 'season'
+};
+
+exports.Prisma.PlayerPushOrderByRelevanceFieldEnum = {
+  season: 'season'
 };
 exports.ModeTickets = exports.$Enums.ModeTickets = {
   PUSH: 'PUSH',

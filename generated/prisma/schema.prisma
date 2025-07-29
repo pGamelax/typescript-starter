@@ -10,14 +10,48 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
+enum ModeTickets {
+  PUSH
+  WAR
+}
+
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  username String @unique
-  password String
-  tag      String @unique
+  id             Int              @id @default(autoincrement())
+  email          String           @unique
+  username       String
+  phone          String           @unique
+  password       String
+  tag            String           @unique
+  trophies       Int              @default(0)
+  best_position  Int?
+  earnigns       Float            @default(0)
+  Last_positions Last_positions[]
+  PlayerPush     PlayerPush[]
+}
+
+model Last_positions {
+  id       Int  @id @default(autoincrement())
+  user_id  Int
+  user     User @relation(fields: [user_id], references: [id])
+  position Int
+  trophies Int
+}
+
+model Tickets {
+  id     Int         @id @default(autoincrement())
+  uuid   String      @default(uuid())
+  value  Float
+  mode   ModeTickets
+  season String      @unique
+}
+
+model PlayerPush {
+  id      Int    @id @default(autoincrement())
+  season  String
+  user_id Int
+  user    User   @relation(fields: [user_id], references: [id])
 }
