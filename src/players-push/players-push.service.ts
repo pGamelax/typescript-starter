@@ -41,8 +41,23 @@ export class PlayersPushService {
         rank: index + 1,
       }));
 
-    const playerData = playersList.filter((item) => item.tag == user.tag)
-  
+    const playerData = playersList.filter(
+      (item) => item.tag.toLocaleUpperCase() == user.tag.toLocaleUpperCase(),
+    );
+
     return { playerData, playersList };
+  }
+
+  async playerInSeason(user_id: number, season: string) {
+    const player = await this.prismaService.playerPush.findFirst({
+      where: {
+        user_id,
+        season,
+      },
+    });
+
+    if (!player) return {status: false};
+
+    return {status: true};
   }
 }

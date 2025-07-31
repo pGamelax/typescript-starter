@@ -9,7 +9,6 @@ export class PlayersPushController {
   @UseGuards(AuthGuard)
   @Get('/:season')
   async getPlayersPush(@Req() req, @Param() params: { season: string }) {
-
     return await this.playerPushService.getPlayerSeason(
       {
         season: params.season,

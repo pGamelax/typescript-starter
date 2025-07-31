@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -12,11 +6,6 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-}
-
-enum ModeTickets {
-  PUSH
-  WAR
 }
 
 model User {
@@ -31,14 +20,24 @@ model User {
   earnigns       Float            @default(0)
   Last_positions Last_positions[]
   PlayerPush     PlayerPush[]
+  Tag            Tag[]
+}
+
+model Tag {
+  id      Int    @id @default(autoincrement())
+  tag     String @unique
+  user_id Int
+  user    User   @relation(fields: [user_id], references: [id])
 }
 
 model Last_positions {
   id       Int  @id @default(autoincrement())
   user_id  Int
-  user     User @relation(fields: [user_id], references: [id])
   position Int
   trophies Int
+  user     User @relation(fields: [user_id], references: [id])
+
+  @@index([user_id], map: "Last_positions_user_id_fkey")
 }
 
 model Tickets {
@@ -54,4 +53,11 @@ model PlayerPush {
   season  String
   user_id Int
   user    User   @relation(fields: [user_id], references: [id])
+
+  @@index([user_id], map: "PlayerPush_user_id_fkey")
+}
+
+enum ModeTickets {
+  PUSH
+  WAR
 }

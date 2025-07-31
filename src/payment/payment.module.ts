@@ -7,6 +7,9 @@ import { PrismaService } from 'src/services/prisma.service';
 import { HttpModule } from '@nestjs/axios';
 import { PushinPayService } from 'src/services/pushinpay.service';
 import { TicketsService } from 'src/tickets/tickets.service';
+import { PlayersPushService } from 'src/players-push/players-push.service';
+import { UsersService } from 'src/users/users.service';
+import { ClashService } from 'src/services/clash.service';
 
 @Module({
   imports: [HttpModule],
@@ -17,6 +20,9 @@ import { TicketsService } from 'src/tickets/tickets.service';
     PrismaService,
     PushinPayService,
     TicketsService,
+    PlayersPushService,
+    ClashService,
+    UsersService
   ],
 
   controllers: [PaymentController],

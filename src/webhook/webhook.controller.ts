@@ -13,10 +13,10 @@ export class WebhookController {
     private readonly userService: UsersService,
   ) {}
 
-  @Post('/payment/:id/:season')
+  @Post('/payment/:id/:season/:tag')
   async receiveWebook(
     @Body() data: any,
-    @Param() params: { id: string; season: string },
+    @Param() params: { id: string; season: string; tag: string },
   ) {
     if (data.status == 'paid') {
       const user = await this.userService.findOne({
@@ -24,10 +24,10 @@ export class WebhookController {
       });
       this.playerPushService.addPlayerPush({
         season: params.season,
-        user: { connect: { id: user.id } },
+        user: { connect: { id: Number(params.id) } },
       });
 
-      this.paymentGateway.sendPaymentConfirmed(String(user.id))
+      this.paymentGateway.sendPaymentConfirmed(String(user.id));
     }
   }
 }
